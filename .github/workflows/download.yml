@@ -1,0 +1,31 @@
+name: Run Downloader
+
+on:
+  workflow_dispatch:
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+
+      - name: Install dependencies
+        run: |
+          pip install requests pandas
+
+      - name: Run downloader
+        run: |
+          python download_data.py
+
+      - name: Upload CSV
+        uses: actions/upload-artifact@v4
+        with:
+          name: btcusdt-1m
+          path: BTCUSDT_1m.csv
